@@ -17,4 +17,4 @@ public class SpringBootCrudRestfulApplication {
        return new RestTemplate();
     }
 
-}	
+}

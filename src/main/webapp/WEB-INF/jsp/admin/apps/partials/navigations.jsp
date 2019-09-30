@@ -15,7 +15,7 @@
 			</div>
 			<div class="col-6 col-md-4 col-xl-3">
 				<a class="btn block block-rounded block-link-pop text-center d-flex align-items-center "
-					href="/admin/create-app">
+					href="/admin/apps/create">
 					<div class="block-content">
 						<p class="font-w600 font-size-sm text-uppercase">
 							<i class="fa fa-plus-circle"></i> New App <br> <small>

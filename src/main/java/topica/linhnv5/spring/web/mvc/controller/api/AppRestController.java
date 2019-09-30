@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,8 +65,9 @@ public class AppRestController {
 		return new ResponseEntity<String>(headers, HttpStatus.CREATED);
 	}
 
-	// ------------------- Update a User ------------------------------------------------
+	// ------------------- Update a App ------------------------------------------------
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> updateUser(@PathVariable("id") String id, @RequestBody Application app) {
 		Application currentApp = appService.findById(id);
 
@@ -76,8 +78,9 @@ public class AppRestController {
 		return new ResponseEntity<Application>(app, HttpStatus.OK);
 	}
 
-	// ------------------- Delete a User-----------------------------------------
+	// ------------------- Delete a App-----------------------------------------
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> deleteUser(@PathVariable("id") String id) {
 		Application app = appService.findById(id);
 		if (app == null)

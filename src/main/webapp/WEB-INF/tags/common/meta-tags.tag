@@ -25,8 +25,8 @@
 <link rel="icon" href="/img/favicon.png" type="image/x-icon"/>
 <link rel="shortcut icon" href="img/favicon.png" type="image/x-icon"/>
 
-<!--meta name="csrf-token" content="{{ csrf_token() }}"-->
+<meta name="csrf-token" content="iQSzLHL0n9ZgqLsABY7KCJ4LYHh8y6ZowYOYP9Ss">
 
 <c:if test="${not empty redirect}">
-	<meta http-equiv="Refresh" content="5;url=http://localhost:8080/"+${redirect}>
+	<meta http-equiv="Refresh" content="5;url=http://localhost:8080/"${redirect}>
 </c:if>

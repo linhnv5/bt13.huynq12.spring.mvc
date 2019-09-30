@@ -6,7 +6,7 @@
 		<div class="row row-deck">
 			<div class="col-6 col-md-4 col-xl-2">
 				<a class="block block-rounded block-link-pop text-center d-flex align-items-center"
-					href="/admin/apps/create-app">
+					href="/admin/apps/create">
 					<div class="block-content">
 						<p class="font-w600 font-size-sm text-uppercase">Create New App</p>
 					</div>

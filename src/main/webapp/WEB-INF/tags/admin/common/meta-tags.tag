@@ -23,4 +23,4 @@
 <meta property="og:url" content="">
 <meta property="og:image" content="">
 
-<!--meta name="csrf-token" content="{{ csrf_token() }}"-->
+<meta name="csrf-token" content="iQSzLHL0n9ZgqLsABY7KCJ4LYHh8y6ZowYOYP9Ss">

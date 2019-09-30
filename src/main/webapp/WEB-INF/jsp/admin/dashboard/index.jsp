@@ -12,7 +12,7 @@
 
 <jsp:attribute name="javascript">
 <script src="/js/common/chart.min.js"></script>
-<script>
+<!--script>
     $(document).ready(function(){
         var monthlyData = JSON.parse('{!! fixedJSON($dashboard["total_users_groupby_month"]) !!}');
         new Chart('chart-line', {
@@ -49,7 +49,7 @@
             }
         });
     });
-</script>
+</script-->
 </jsp:attribute>
 
 </t:master-admin>

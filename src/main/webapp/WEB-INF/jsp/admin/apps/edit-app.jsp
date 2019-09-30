@@ -4,7 +4,7 @@
 
 <%@taglib prefix="t" tagdir="/WEB-INF/tags/layouts"%>
 
-<t:master-admin title="Admin Create App">
+<t:master-admin title="Admin Edit App ${app.getId()}">
 
 <jsp:attribute name="content">
 
@@ -18,7 +18,7 @@
 	        			<i class="fab fa-android mr-2"></i> Apps
 	        		</a>
 	        	</li>
-	        	<li class="breadcrumb-item active" aria-current="page">Create new app</li>
+	        	<li class="breadcrumb-item active" aria-current="page">Edit app ${app.getId()}</li>
 	        </ol>
 
 	        <div id="admin-app-detail" data-uploadlimit="1" data-pageindex="/admin/apps">
@@ -26,7 +26,7 @@
 					<div class="loader-60devs " data-state="hidden" style="background: rgb(0, 166, 128); height: 5px;">
 						<div class="loader-60devs-progress" style="background: rgb(0, 166, 128); height: 5px;"></div>
 					</div>
-                    <form action="/admin/apps/create" method="POST">
+                    <form action="/admin/apps/edit/${app.getId()}" method="POST">
 						<div class="mb-5 pb-5">
 							<div class="loader-60devs " data-state="hidden" style="background: rgb(0, 166, 128); height: 5px;">
 								<div class="loader-60devs-progress" style="background: rgb(0, 166, 128); height: 5px;"></div>
@@ -69,30 +69,31 @@
 											<div class="form-group">
 												<label for="app_id">App ID <small class="text-danger"> * </small></label>
 												<div class="input-group mb-3">
-													<input type="text" class="form-control "
+													<input type="text" class="form-control" readonly
 														placeholder="eg: Enter unique app id here."
 														aria-label="eg: Enter unique app id here."
-														aria-describedby="app_id" name="id" value="">
+														aria-describedby="app_id" name="id" value="${app.getId()}" />
 												</div>
 											</div>
 											<div class="form-group">
 												<label for="title">App Name <small class="text-danger"> * </small></label>
 												<input type="text" name="title" class="form-control "
-														placeholder="eg: Enter app title here" value="">
+														placeholder="eg: Enter app title here" value="${app.getTitle()}">
 											</div>
 											<div class="form-group">
 												<label for="short_description">App Image URL</label>
 												<input type="text" name="appImageUrl" class="form-control "
-														placeholder="eg: Enter app image url here" value="">
+														placeholder="eg: Enter app image url here" value="${app.getAppImageUrl()}">
 											</div>
 											<div class="form-group">
 												<label for="short_description">App Download URL</label>
 												<input type="text" name="appDownloadURL" class="form-control "
-														placeholder="eg: Enter download image url here" value="">
+														placeholder="eg: Enter download image url here" value="${app.getAppDownloadURL()}">
 											</div>
 											<div class="form-group">
 												<label for="description">Description</label>
 												<textarea name="appDescription" class="form-control rounded-0" rows="10">
+													${app.getAppDescription()}
 												</textarea>
 											</div>
 										</div>
@@ -104,7 +105,7 @@
 													<i class="fa fa-arrow-left"></i> &amp; Back
 												</a>
 												<button type="submit" class="btn btn-success">
-													<i class="mr-1 fa fa-check-circle"></i> &amp; Create App
+													<i class="mr-1 fa fa-check-circle"></i> &amp; Update App
 												</button>
 												<div role="toolbar" class="btn-toolbar"></div>
 											</div>

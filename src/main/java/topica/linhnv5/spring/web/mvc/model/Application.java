@@ -171,4 +171,12 @@ public class Application {
 		this.appDownloadURL = appDownloadURL;
 	}
 
+	@Override
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Application))
+			return false;
+		Application other = (Application) obj;
+		return this.id.equals(other.id);
+	}
+
 }
