@@ -1,39 +1,74 @@
 package topica.linhnv5.spring.web.mvc.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.User.UserBuilder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import topica.linhnv5.spring.web.mvc.model.User;
+import topica.linhnv5.spring.web.mvc.repository.UserRepository;
 
-public interface UserService {
+/**
+ * User service, build userdetails to authentication
+ * @author ljnk975
+ */
+@Service
+public class UserService implements UserDetailsService, IUserService {
 
-	/**
-	 * Get user by using id
-	 * @param id id of user
-	 * @return the user
-	 */
-	User findById(long id);
+	@Autowired
+	private UserRepository userRepository;
 
-	/**
-	 * Get user by using username
-	 * @param name username of user
-	 * @return the user
-	 */
-	User findByName(String username);	
+	@Override
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		User user = userRepository.findByUsername(username).get();
 
-	/**
-	 * Add new user
-	 * @param user the user
-	 */
-	void saveUser(User user);
+		UserBuilder builder = null;
+		if (user != null) {
+			builder = org.springframework.security.core.userdetails.User.withUsername(username)
+						.password(new BCryptPasswordEncoder().encode(user.getPassword()))
+						.roles(user.getRoles());
+		} else
+			throw new UsernameNotFoundException("User not found.");
 
-	/**
-	 * Update user information
-	 * @param user the user
-	 */
-	void updateUser(User user);
+		return builder.build();
+	}
 
-	/**
-	 * Delete user by user id
-	 * @param id id of user
-	 */
-	void deleteUserById(long id);
+	@Override
+	public User findById(long id) {
+		return userRepository.findById(id).get();
+	}
+
+	@Override
+	public User findByName(String username) {
+		return userRepository.findByUsername(username).get();
+	}
+
+	@Override
+	public void saveUser(User user) {
+		// Set role
+		user.setRoles("USER");
+
+		userRepository.save(user);
+	}
+
+	@Override
+	public void updateUser(User user) {
+		User old = userRepository.findById(user.getId()).get();
+
+		if(old != null) {
+			old.setPassword(user.getPassword());
+			old.setFullName(user.getFullName());
+			old.setEmail(user.getEmail());
+			userRepository.save(user);
+		}
+	}
+
+	@Override
+	public void deleteUserById(long id) {
+		userRepository.deleteById(id);
+	}
 
 }

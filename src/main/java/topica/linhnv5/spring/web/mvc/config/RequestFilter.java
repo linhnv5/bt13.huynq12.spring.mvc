@@ -14,17 +14,13 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import topica.linhnv5.spring.web.mvc.dao.UserDAO;
-import topica.linhnv5.spring.web.mvc.service.MyUserDetailsService;
+import topica.linhnv5.spring.web.mvc.service.UserService;
 
 @Component
 public class RequestFilter extends OncePerRequestFilter {
 
 	@Autowired
-	private MyUserDetailsService userDetailsService;
-
-	@Autowired
-	private UserDAO userDAO;
+	private UserService userService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
@@ -32,7 +28,7 @@ public class RequestFilter extends OncePerRequestFilter {
 
 		// Once we get the token validate it.
 		if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-			UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
+			UserDetails userDetails = this.userService.loadUserByUsername(username);
 
 			UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken
 					= new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -45,7 +41,7 @@ public class RequestFilter extends OncePerRequestFilter {
 			SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
 
 			// Set user object to request
-			request.setAttribute("user", userDAO.findByName(username));
+			request.setAttribute("user", userService.findByName(username));
 		}
 
 		chain.doFilter(request, response);

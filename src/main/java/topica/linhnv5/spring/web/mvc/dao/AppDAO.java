@@ -4,17 +4,20 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Repository;
 
 import topica.linhnv5.spring.web.mvc.model.Application;
-import topica.linhnv5.spring.web.mvc.service.AppService;
+import topica.linhnv5.spring.web.mvc.service.IAppService;
 
 /**
  * App DAO, hold app mapping
  * @author ljnk975
  */
+@Deprecated
 @Repository
-public class AppDAO implements AppService {
+public class AppDAO implements IAppService {
 
 	/**
 	 * Map of App
@@ -225,7 +228,7 @@ public class AppDAO implements AppService {
 	}
 
 	@Override
-	public List<Application> findByName(String name, int limit) {
+	public Page<Application> findByName(String name, int pageindex, int pagesize) {
 		// Fix name null to featch all name
 		if (name == null) name = "";
 
@@ -236,11 +239,17 @@ public class AppDAO implements AppService {
 				list.add(app);
 
 				// Check size
-				if (limit > 0 && list.size() >= limit)
+				if (pagesize > 0 && list.size() >= pagesize)
 					break;
 			}
 		}
-		return list;
+		return new PageImpl<Application>(list);
+	}
+
+	@Override
+	public Page<Application> searchByName(String letter, String name, int pageindex, int pagesize) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

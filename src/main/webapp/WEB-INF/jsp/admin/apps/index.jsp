@@ -11,7 +11,8 @@
 <jsp:include page="partials/navigations.jsp" />
 
 <div class="row">
-    <div id="admin-app">
+	<div id=admin-app data-letters='["All","A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z"]'></div>
+    <%--div id="admin-app">
 		<div>
 			<div class="bg-white">
 				<div class="content">
@@ -22,7 +23,7 @@
 								<span class="input-group-text border-0 bg-body"><i class="fa fa-fw fa-search"></i></span>
 							</div>
 						</div>
-                       	<%--c:if test="${not empty successMessage}">
+                       	<c:if test="${not empty successMessage}">
    					        <div class="form-group mt-3">
                                 <span class="text-success">${successMessage}</span>
    					        </div>
@@ -31,8 +32,8 @@
 			                <div class="form-group mt-3">
                				    <span class="text-danger">${errorMessage}</span>
                             </div>
-			            </c:if--%>
-						<!--div class="form-group mt-3">
+			            </c:if>
+						<div class="form-group mt-3">
 							<div class="text-center">
 								<a class="btn btn-secondary btn-circle" title="All"
 										style="color: rgb(255, 255, 255); background-color: rgb(92, 152, 139); border-color: rgb(92, 152, 139);">All</a><a
@@ -89,7 +90,7 @@
 										class="btn btn-secondary btn-circle" title="Z"
 										style="color: rgb(255, 255, 255);">Z</a>
 						</div>
-					</div-->
+					</div>
 				</div>
 			</div>
 			<div class="loader-60devs " data-state="hidden" style="background: rgb(0, 166, 128); height: 5px;">
@@ -100,7 +101,7 @@
 				<div class="block-header bg-light">
 					<h3 class="block-title">Browse all your play store</h3>
 				</div>
-				<!--div class="block-content block-content-full block-content-sm bg-body-light">
+				<div class="block-content block-content-full block-content-sm bg-body-light">
 					<nav aria-label="Page navigation">
 						<ul class="pagination justify-content-center">
 							<li class="previous disabled"><a class="page-link"
@@ -116,7 +117,7 @@
 								role="button" aria-disabled="false">❯</a></li>
 						</ul>
 					</nav>
-				</div-->
+				</div>
 				<div class="block-content block-content-admin block-content-no-pad row">
 					<c:forEach items="${apps}" var="app">
 						<div class="col-lg-3 col-sm-6 col-xs-6">
@@ -152,7 +153,7 @@
 						</div>
 					</c:forEach>
 				</div>
-				<!--div class="block-content block-content-full block-content-sm bg-body-light">
+				<div class="block-content block-content-full block-content-sm bg-body-light">
 					<nav aria-label="Page navigation">
 						<ul class="pagination justify-content-center">
 							<li class="previous disabled"><a class="page-link"
@@ -168,10 +169,10 @@
 								role="button" aria-disabled="false">❯</a></li>
 						</ul>
 					</nav>
-				</div-->
+				</div>
 			</div>
 		</div>
-    </div>
+    </div--%>
 </div>
 
 </jsp:attribute>
@@ -196,13 +197,14 @@
 </jsp:attribute>
 
 <jsp:attribute name="javascript">
-<!--script>
+<script>
     window.dcmUri = (window.dcmUri || {});
     window.dcmUri = {
-        resource  : '/admin/app-resource',
+        resource  : 'http://localhost:8080/api/app',
     }
 </script>
-<script src="/js/admin-app.js"></script-->
+<script src="/js/admin-app.js"></script>
 </jsp:attribute>
 
 </t:master-admin>
+

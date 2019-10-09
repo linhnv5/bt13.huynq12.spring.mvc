@@ -14,7 +14,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import topica.linhnv5.spring.web.mvc.service.MyUserDetailsService;
+import topica.linhnv5.spring.web.mvc.service.UserService;
 
 @Configuration
 @EnableWebSecurity
@@ -25,7 +25,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	private MyAuthenticationEntryPoint authenticationEntryPoint;
 
 	@Autowired
-	private MyUserDetailsService userDetailsService;
+	private UserService userDetailsService;
 
 	@Autowired
 	private RequestFilter requestFilter;

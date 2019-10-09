@@ -13,14 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import topica.linhnv5.spring.web.mvc.model.User;
-import topica.linhnv5.spring.web.mvc.service.UserService;
+import topica.linhnv5.spring.web.mvc.service.IUserService;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserRestController {
 
 	@Autowired
-	private UserService userService;
+	private IUserService userService;
 
 	// -------------------Retrieve Single User------------------------------------------
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)

@@ -3,6 +3,7 @@ package topica.linhnv5.spring.web.mvc.controller;
 import java.net.URI;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +23,14 @@ public class AppController {
 	@Autowired
 	private RestTemplate restTemplate;
 
+	@Value("${app.api.page}")
+	private String appAPI;
+
 	@GetMapping(value = "/{id}")
 	public ModelAndView home(@PathVariable("id") String id) throws Exception {
 		// Request to api app
 		RequestEntity<?> request = RequestEntity
-			     .get(new URI("http://localhost:8080/api/app/"+id))
+			     .get(new URI(appAPI+"/"+id))
 			     .accept(MediaType.APPLICATION_JSON)
 			     .build();
 

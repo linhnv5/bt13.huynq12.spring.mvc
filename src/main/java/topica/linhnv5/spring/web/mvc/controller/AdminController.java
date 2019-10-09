@@ -1,10 +1,9 @@
 package topica.linhnv5.spring.web.mvc.controller;
 
 import java.net.URI;
-import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
@@ -27,9 +26,19 @@ public class AdminController {
 	@Autowired
 	private RestTemplate restTemplate;
 
+	@Value("${app.api.page}")
+	private String appAPI;
+
 	@GetMapping()
 	public ModelAndView adminHome() throws Exception {
 		ModelAndView model = new ModelAndView("admin/dashboard/index");
+	    return model;
+	}
+
+	@GetMapping(value="/apps")
+	public ModelAndView appsView() throws Exception {
+		// Return to view
+		ModelAndView model = new ModelAndView("admin/apps/index");
 	    return model;
 	}
 
@@ -43,7 +52,7 @@ public class AdminController {
 	public ModelAndView doCreateApp(@ModelAttribute Application app) throws Exception {
 		// Request to api app
 		RequestEntity<?> request = RequestEntity
-			     .post(new URI("http://localhost:8080/api/app"))
+			     .post(new URI(appAPI))
 			     .accept(MediaType.APPLICATION_JSON)
 			     .body(app);
 
@@ -64,28 +73,11 @@ public class AdminController {
 	    return model;
 	}
 
-	@GetMapping(value="/apps")
-	public ModelAndView appsView() throws Exception {
-		// Request to api app
-		RequestEntity<?> request = RequestEntity
-			     .get(new URI("http://localhost:8080/api/app"))
-			     .accept(MediaType.APPLICATION_JSON)
-			     .build();
-
-		// get application
-		ResponseEntity<List<Application>> response = restTemplate.exchange(request, new ParameterizedTypeReference<List<Application>>(){});
-
-		// Return to view
-		ModelAndView model = new ModelAndView("admin/apps/index");
-	    model.addObject("apps", response.getBody());
-	    return model;
-	}
-
 	@GetMapping(value="/apps/edit/{id}")
 	public ModelAndView appsEdit(@PathVariable("id") String id) throws Exception {
 		// Request to api app
 		RequestEntity<?> request = RequestEntity
-			     .get(new URI("http://localhost:8080/api/app/"+id))
+			     .get(new URI(appAPI+"/"+id))
 			     .accept(MediaType.APPLICATION_JSON)
 			     .build();
 
@@ -108,7 +100,7 @@ public class AdminController {
 		} else {
 			// Request to api app
 			RequestEntity<?> request = RequestEntity
-					 .put(new URI("http://localhost:8080/api/app/"+id))
+					 .put(new URI(appAPI+"/"+id))
 				     .accept(MediaType.APPLICATION_JSON)
 				     .body(app);
 
@@ -126,21 +118,6 @@ public class AdminController {
 
 	    model.addObject("app", app);
 	    return model;
-	}
-
-	@GetMapping(value="/apps/delete/{id}")
-	public String appsDelete(@PathVariable("id") String id) throws Exception {
-		// Request to api app
-		RequestEntity<?> request = RequestEntity
-				 .delete(new URI("http://localhost:8080/api/app/"+id))
-			     .accept(MediaType.APPLICATION_JSON)
-			     .build();
-
-		// get response
-		restTemplate.exchange(request, new ParameterizedTypeReference<List<Application>>(){});
-
-		// redirect to index
-		return "redirect:/admin/apps";
 	}
 
 }

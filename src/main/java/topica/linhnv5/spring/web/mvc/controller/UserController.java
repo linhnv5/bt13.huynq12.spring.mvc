@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import topica.linhnv5.spring.web.mvc.dao.UserDAO;
 import topica.linhnv5.spring.web.mvc.model.LoginRequest;
 import topica.linhnv5.spring.web.mvc.model.User;
-import topica.linhnv5.spring.web.mvc.service.MyUserDetailsService;
+import topica.linhnv5.spring.web.mvc.service.IUserService;
+import topica.linhnv5.spring.web.mvc.service.UserService;
 
 @Controller
 @RequestMapping(value="/user/")
@@ -28,10 +28,10 @@ public class UserController {
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	private MyUserDetailsService userDetailsService;
+	private UserService userDetailsService;
 
 	@Autowired
-	private UserDAO userDAO;
+	private IUserService userDAO;
 
 	@GetMapping(value="login")
 	public ModelAndView login() throws Exception {

@@ -1,8 +1,8 @@
 package topica.linhnv5.spring.web.mvc.controller.api;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,32 +15,31 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import topica.linhnv5.spring.web.mvc.model.AppContentResponse;
 import topica.linhnv5.spring.web.mvc.model.Application;
-import topica.linhnv5.spring.web.mvc.service.AppService;
+import topica.linhnv5.spring.web.mvc.service.IAppService;
 
 @RestController
 @RequestMapping("/api/app")
 public class AppRestController {
 
 	@Autowired
-	private AppService appService;
+	private IAppService appService;
+
+	@Value("${app.admin.page.size}")
+	private int appPageSize;
 
 	// -------------------Retrieve All Apps---------------------------------------------
 	@RequestMapping(method = RequestMethod.GET)
-	public ResponseEntity<?> listAllApps(@RequestParam(defaultValue = "-1") int lent) {
-		List<Application> apps = appService.findByName("", lent);
-		if (apps.isEmpty())
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		return new ResponseEntity<List<Application>>(apps, HttpStatus.OK);
-	}
+	public ResponseEntity<?> appResource(@RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "All") String letter, @RequestParam(defaultValue = "") String q) throws Exception {
+		// Find app
+		Page<Application> apps = appService.searchByName(letter, q, page, appPageSize);
 
-	// -------------------Retrieve All Apps By Name---------------------------------------------
-	@RequestMapping(value = "/search/{name}", method = RequestMethod.GET)
-	public ResponseEntity<?> listAllAppsByName(@PathVariable("name") String name, @RequestParam(defaultValue = "-1") int lent) {
-		List<Application> apps = appService.findByName(name, lent);
 		if (apps.isEmpty())
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		return new ResponseEntity<List<Application>>(apps, HttpStatus.OK);
+
+		// Return to view
+		return new ResponseEntity<AppContentResponse>(new AppContentResponse("success", "200", apps), HttpStatus.OK);
 	}
 
 	// -------------------Retrieve Single App------------------------------------------
@@ -54,6 +53,7 @@ public class AppRestController {
 
 	// -------------------Create a App-------------------------------------------
 	@RequestMapping(method = RequestMethod.POST)
+	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> createApp(@RequestBody Application app, UriComponentsBuilder ucBuilder) {
 		if (appService.findById(app.getId()) != null)
 			return new ResponseEntity<>("Unable to create. App with id " +  app.getId() + " already exist.", HttpStatus.CONFLICT);
@@ -67,7 +67,6 @@ public class AppRestController {
 
 	// ------------------- Update a App ------------------------------------------------
 	@RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> updateUser(@PathVariable("id") String id, @RequestBody Application app) {
 		Application currentApp = appService.findById(id);
 
@@ -82,6 +81,7 @@ public class AppRestController {
 	@RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
 	@PreAuthorize("hasRole('ADMIN')")
 	public ResponseEntity<?> deleteUser(@PathVariable("id") String id) {
+		System.out.println("Id= "+id);
 		Application app = appService.findById(id);
 		if (app == null)
 			return new ResponseEntity<>("Unable to delete. App with id " + id + " not found.", HttpStatus.NOT_FOUND);

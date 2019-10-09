@@ -1,42 +1,64 @@
 package topica.linhnv5.spring.web.mvc.service;
 
-import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
 
 import topica.linhnv5.spring.web.mvc.model.Application;
+import topica.linhnv5.spring.web.mvc.repository.ApplicationRepository;
 
-public interface AppService {
+/**
+ * App service
+ * @author ljnk975
+ */
+@Service
+public class AppService implements IAppService {
 
-	/**
-	 * Get App by using id
-	 * @param id id of app
-	 * @return the app
-	 */
-	Application findById(String id);
+	@Autowired
+	private ApplicationRepository appRepository;
 
-	/**
-	 * Get application by name
-	 * @param name  prefix name of app, null for get all name
-	 * @param limit number of app fetcher, -1 if fetch all
-	 * @return the user
-	 */
-	List<Application> findByName(String name, int limit);	
+	@Override
+	public Application findById(String id) {
+		return appRepository.findById(id).get();
+	}
 
-	/**
-	 * Add new app
-	 * @param app the app
-	 */
-	void saveApp(Application app);
+	@Override
+	public Page<Application> findByName(String name, int pageindex, int pagesize) {
+		if (name == null)
+			name = "";
 
-	/**
-	 * Update app information
-	 * @param app the app
-	 */
-	void updateApp(Application app);
+		return appRepository.findByTitleStartsWithIgnoreCase(name, PageRequest.of(pageindex, pagesize));
+	}
 
-	/**
-	 * Delete app using app id
-	 * @param id id of app
-	 */
-	void deleteAppById(String id);
+	@Override
+	public Page<Application> searchByName(String letter, String name, int pageindex, int pagesize) {
+		if (letter.equalsIgnoreCase("All"))
+			letter = "";
+		return appRepository.findByTitleContainsIgnoreCase(letter, name, PageRequest.of(pageindex, pagesize));
+	}
+
+	@Override
+	public void saveApp(Application app) {
+		appRepository.save(app);
+	}
+
+	@Override
+	public void updateApp(Application app) {
+		Application old = appRepository.findById(app.getId()).get();
+
+		old.setTitle(app.getTitle());
+		old.setAppDescription(app.getAppDescription());
+		old.setCurrentRatings(app.getCurrentRatings());
+		old.setAppImageUrl(app.getAppImageUrl());
+		old.setAppDownloadURL(app.getAppDownloadURL());
+
+		appRepository.save(old);
+	}
+
+	@Override
+	public void deleteAppById(String id) {
+		appRepository.deleteById(id);
+	}
 
 }

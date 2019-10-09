@@ -46180,7 +46180,7 @@ function (_Component) {
       apps: [],
       completed: false,
       pageCount: 1,
-      currentPage: 1,
+      currentPage: 0,
       search_input: '',
       selected_letter: 'All',
       selected_delete: '',
@@ -46222,7 +46222,7 @@ function (_Component) {
                 _context.next = 3;
                 return Promise.resolve(this.setState(function () {
                   return {
-                    currentPage: page ? page : 1,
+                    currentPage: page ? page : 0,
                     letters: _this2.props.letters || []
                   };
                 }));
@@ -46721,7 +46721,7 @@ function (_React$Component) {
   _createClass(AppContent, [{
     key: "onClickEditBtn",
     value: function onClickEditBtn(app, evt) {
-      window.location.replace(app.admin_detail_link);
+      window.location.replace(app.appLink);
     }
   }, {
     key: "onClickDelBtn",
@@ -46751,11 +46751,11 @@ function (_React$Component) {
         className: "item  block-app-image"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
         style: styles.image,
-        src: app.app_image_url,
+        src: app.appImageUrl,
         width: "100%",
         height: "100%",
-        alt: app.title + " average rating " + app.current_ratings,
-        title: app.title + " average rating " + app.current_ratings,
+        alt: app.title + " average rating " + app.currentRatings,
+        title: app.title + " average rating " + app.currentRatings,
         onError: function onError(e) {
           e.target.src = app.no_image_url; // some replacement image
         }
@@ -46763,15 +46763,15 @@ function (_React$Component) {
         className: "ml-3 text-right"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
         className: "font-w600 mb-0 app-title"
-      }, app.title_with_limit), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      }, app.title), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
         className: "stars mb-3"
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "score",
-        title: app.title + " average rating " + app.current_ratings,
+        title: app.title + " average rating " + app.currentRatings,
         style: styles.star_score
       }), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("span", {
         className: "star"
-      }, app.current_ratings)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      }, app.currentRatings)), react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
         className: "btn btn-outline-secondary btn-sm mr-1",
         onClick: this.onClickEditBtn.bind(this, app)
       }, react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("i", {

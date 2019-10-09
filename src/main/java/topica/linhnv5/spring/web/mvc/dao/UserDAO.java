@@ -8,14 +8,15 @@ import java.util.concurrent.atomic.AtomicLong;
 import org.springframework.stereotype.Repository;
 
 import topica.linhnv5.spring.web.mvc.model.User;
-import topica.linhnv5.spring.web.mvc.service.UserService;
+import topica.linhnv5.spring.web.mvc.service.IUserService;
 
 /**
  * User DAO, Hold User mapping
  * @author ljnk975
  */
+@Deprecated
 @Repository
-public class UserDAO implements UserService {
+public class UserDAO implements IUserService {
 
 	/**
 	 * To get next id

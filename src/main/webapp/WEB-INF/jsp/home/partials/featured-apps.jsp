@@ -15,7 +15,7 @@
 					</div>
 				</div>
 				<div class="block-content block-content-hover block-content-no-pad row">
-					<c:forEach items="${apps}" var="appx">
+					<c:forEach items="${apps.getData()}" var="appx">
 						<c:set var="app" value="${appx}" scope="request"/>
 						<c:import url="/WEB-INF/jsp/app/partials/_app.jsp"/>
                     </c:forEach>

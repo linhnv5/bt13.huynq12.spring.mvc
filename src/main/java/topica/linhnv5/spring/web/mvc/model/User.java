@@ -1,11 +1,22 @@
 package topica.linhnv5.spring.web.mvc.model;
 
 import java.io.Serializable;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  * User model, hold login information
  * @author ljnk975
  */
+@Entity
+@Table(name = "user")
 public class User implements Serializable {
 
 	/**
@@ -16,95 +27,119 @@ public class User implements Serializable {
 	/**
 	 * IDDB
 	 */
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	/**
 	 * Username
 	 */
+	@Column(name = "user", nullable = false)
 	private String username;
 
 	/**
 	 * Password of user
 	 */
+	@Column(name = "pass", nullable = false)
 	private String password;
 
-	// Don't need role this section
-	private String[] roles;
+	/**
+	 * Role of user, ADMIN/USER
+	 */
+	@Column(name = "role", nullable = false)
+	private String roles;
 
 	/// Infomation about user
 	/**
 	 * Full name of user
 	 */
+	@Column(name = "fullname", nullable = true)
 	private String fullName;
 
 	/**
 	 * Mail address
 	 */
+	@Column(name = "email", nullable = true)
 	private String email;
 
+	/**
+	 * Default constructor
+	 */
+	public User() {
+	}
+
+	/**
+	 * Create a user
+	 * @param id
+	 * @param username
+	 * @param password
+	 * @param roles
+	 */
 	public User(long id, String username, String password, String... roles) {
 		this.id = id;
 		this.username = username;
 		this.password = password;
-		this.roles = roles;
+		this.setRoles(roles);
 	}
 
 	/**
 	 * @return the id
 	 */
-	public final long getId() {
+	public long getId() {
 		return id;
 	}
 
 	/**
 	 * @param id the id to set
 	 */
-	public final void setId(long id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
 	/**
 	 * @return the username
 	 */
-	public final String getUsername() {
+	public String getUsername() {
 		return username;
 	}
 
 	/**
 	 * @param username the username to set
 	 */
-	public final void setUsername(String username) {
+	public void setUsername(String username) {
 		this.username = username;
 	}
 
 	/**
 	 * @return the password
 	 */
-	public final String getPassword() {
+	public String getPassword() {
 		return password;
 	}
 
 	/**
 	 * @param password the password to set
 	 */
-	public final void setPassword(String password) {
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
 	/**
 	 * @return the roles
 	 */
-	public final String[] getRoles() {
-		return roles;
+	public String[] getRoles() {
+		return roles.split(",");
 	}
 
 	/**
 	 * Is have admin role
 	 * @return admin role
 	 */
-	public final boolean isAdmin() {
+	public boolean isAdmin() {
 		if (roles != null) {
-			for (String s : roles) {
+			String[] arole = roles.split(",");
+			for (String s : arole) {
 				if (s.equalsIgnoreCase("ADMIN"))
 					return true;
 			}
@@ -115,35 +150,35 @@ public class User implements Serializable {
 	/**
 	 * @param roles the roles to set
 	 */
-	public final void setRoles(String... roles) {
-		this.roles = roles;
+	public void setRoles(String... roles) {
+		this.roles = Stream.of(roles).collect(Collectors.joining(","));
 	}
 
 	/**
 	 * @return the fullName
 	 */
-	public final String getFullName() {
+	public String getFullName() {
 		return fullName;
 	}
 
 	/**
 	 * @param fullName the fullName to set
 	 */
-	public final void setFullName(String fullName) {
+	public void setFullName(String fullName) {
 		this.fullName = fullName;
 	}
 
 	/**
 	 * @return the email
 	 */
-	public final String getEmail() {
+	public String getEmail() {
 		return email;
 	}
 
 	/**
 	 * @param email the email to set
 	 */
-	public final void setEmail(String email) {
+	public void setEmail(String email) {
 		this.email = email;
 	}
 
